@@ -14,11 +14,11 @@ class PageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Page
-        fields = ('title','page_url')
+        fields = ('title','page_url',)
 
 class PageDetailSerializer(serializers.ModelSerializer):
     content_blocks = ContentBlockSerializer(many=True)
-
+    
     class Meta:
         model = Page
         fields = ('title','content_blocks',)

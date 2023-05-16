@@ -1,4 +1,11 @@
+import os
 from pathlib import Path
+
+import environ
+
+root = environ.Path(__file__) - 2
+env = environ.Env()
+environ.Env.read_env(env.str(root(), '.env'))
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -52,10 +59,18 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": env.str("DB_NAME", "postgres"),
+        "USER": env.str("POSTGRES_USER", "postgres"),
+        "PASSWORD": env.str("POSTGRES_PASSWORD", "postgres"),
+        "HOST": env.str("DB_HOST", "db"),
+        "PORT": env.int("DB_PORT", 5432),
+    },
+    "extra": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+    },
 }
 
 

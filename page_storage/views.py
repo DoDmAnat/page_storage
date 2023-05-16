@@ -13,7 +13,7 @@ class PageDetailAPIView(generics.RetrieveAPIView):
 
     def get(self, request, *args, **kwargs):
         instance = self.get_object()
-        content_blocks = instance.content_blocks.all()
+        content_blocks = instance.content_blocks.order_by('sort_order')
         for content_block in content_blocks:
             content_block.increment_show_count()
         return self.retrieve(request, *args, **kwargs)
